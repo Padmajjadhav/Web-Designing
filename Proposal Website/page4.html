@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Question</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function handleAnswer(answer) {
+            let predefinedMessage = "";
+            let reason = "";
+
+            if (answer === "Yes") {
+                predefinedMessage = "Thank you! ❤️ I’ve been wanting to say this for a long time but couldn’t. It’s not that I was afraid to express my feelings, but I wanted to do something special first. Recently, I learned UI design, so I used my skills to create this for you. 💖";
+                
+            } else {
+                predefinedMessage = "It's okay. It’s your life, your decision. I respect that. I just hope this doesn’t affect our friendship. Thank you for being a part of my life. 🙏";
+            }
+
+            // Ask for a reason (for both Yes and No)
+            reason = prompt("Please share your reason 😊\n\n(Note: This message will be mailed to the admin. Thank you!)");
+
+            if (!reason || reason.trim() === "") {
+                reason = "No reason provided.";
+            }
+
+            // Show predefined message in HTML
+            document.getElementById("responseText").innerText = predefinedMessage;
+
+            // Send the reason via email
+            fetch("https://formspree.io/f/your_form_id", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: "your_mail_id",
+                    message: `Response: ${answer}\nReason: ${reason}`
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert("Your response has been sent successfully! 😊");
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>I Love You! Do You Love Me? ❤️</h1>
+        <img src="https://cdn.pixabay.com/animation/2023/04/08/01/23/01-23-19-930_512.gif" alt="Romantic GIF" class="romantic-img">
+        
+        <!-- Buttons for Yes or No -->
+        <div class="btn-container">
+            <button class="btn" onclick="handleAnswer('Yes')">Yes 😊</button>
+            <button class="btn" onclick="handleAnswer('No')">No 😔</button>
+        </div>
+
+        <!-- Predefined response will appear here -->
+        <p id="responseText" style="margin-top: 20px; font-weight: bold; color: #E91E63;"></p>
+    </div>
+</body>
+</html>
